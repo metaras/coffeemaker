@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.ncsu.csc326.coffeemaker.CoffeeMakerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-08-27T07:21:31" hostname="Metaras" time="0.01">
+<testsuite name="edu.ncsu.csc326.coffeemaker.CoffeeMakerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-08-31T14:27:55" hostname="Metaras" time="0.003">
   <properties/>
-  <testcase name="testAddInventory" classname="edu.ncsu.csc326.coffeemaker.CoffeeMakerTest" time="0.008"/>
-  <testcase name="testMakeCoffee" classname="edu.ncsu.csc326.coffeemaker.CoffeeMakerTest" time="0.0"/>
-  <testcase name="testAddInventoryException" classname="edu.ncsu.csc326.coffeemaker.CoffeeMakerTest" time="0.0"/>
+  <testcase name="testAmountAndPriceMalformed" classname="edu.ncsu.csc326.coffeemaker.CoffeeMakerTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
