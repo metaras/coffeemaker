@@ -8,7 +8,7 @@
 
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java-library'
-
+apply plugin: 'jacoco'
 
 // Make sure we are using Java 8.
 if(JavaVersion.current() != JavaVersion.VERSION_1_8) 
@@ -17,6 +17,9 @@ if(JavaVersion.current() != JavaVersion.VERSION_1_8)
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8 
 
+ext {
+    jacocoVersion = '0.8.7'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -29,6 +32,18 @@ repositories {
  test {
      testLogging.showStandardStreams = true
  }
+
+jacoco {
+    toolVersion = jacocoVersion
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = true
+    }
+}
 
 dependencies {
     // Use JUnit test framework
