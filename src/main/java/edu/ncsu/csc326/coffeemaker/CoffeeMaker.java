@@ -32,6 +32,15 @@ public class CoffeeMaker {
 	    recipeBook = new RecipeBook();
 		inventory = new Inventory();
 	}
+	/**
+	 *  Another constructor which you can custom your own inventory and recipe book.
+	 * @param recipeBook the custom recipe book.
+	 * @param inventory the custom inventory.
+	 */
+	public CoffeeMaker(RecipeBook recipeBook, Inventory inventory)  {
+		this.recipeBook = recipeBook;
+		this.inventory = inventory;
+	}
 	
 	/**
 	 * Returns true if the recipe is added to the
