@@ -40,7 +40,7 @@ public class CoffeeMakerTest {
     private CoffeeMaker coffeeMaker;
     private CoffeeMaker mockCoffeeMaker;
     private Inventory inventory;
-    private RecipeBook recipeBook;
+    private RecipeBook stubRecipeBook;
     // Sample recipes to use in testing.
     private Recipe recipe1;
     private Recipe recipe2;
@@ -75,8 +75,8 @@ public class CoffeeMakerTest {
     public void setUp() throws RecipeException {
         coffeeMaker = new CoffeeMaker();
         inventory = new Inventory();
-        recipeBook = mock(RecipeBook.class);
-        mockCoffeeMaker = new CoffeeMaker(recipeBook, inventory);
+        stubRecipeBook = mock(RecipeBook.class);
+        mockCoffeeMaker = new CoffeeMaker(stubRecipeBook, inventory);
 
         //Set up for recipe1
         recipe1 = createRecipe("Coffee", 0, 3, 1, 1, 50);
@@ -87,15 +87,11 @@ public class CoffeeMakerTest {
         //Set up for recipe3
         recipe3 = createRecipe("Latte", 0, 3, 3, 1, 100);
 
-        //Set up for recipe4
-        recipe4 = createRecipe("Hot Chocolate", 4, 0, 1, 1, 65);
-
-        recipe5 = createRecipe("over coffee", 18, 15, 15, 15, 100);
-        recipe6 = createRecipe("over chocolate", 15, 17, 15, 15, 100);
-        recipe7 = createRecipe("over milk", 15, 15, 19, 15, 100);
-        recipe8 = createRecipe("clear inventory", 15, 15, 15, 15, 100);
-        recipeList = new Recipe[]{recipe1, recipe2, recipe3, recipe4};
-        customList = new Recipe[]{recipe5, recipe6, recipe7, recipe8};
+        recipe4 = createRecipe("over coffee", 18, 15, 15, 15, 100);
+        recipe5 = createRecipe("over chocolate", 15, 17, 15, 15, 100);
+        recipe6 = createRecipe("clear inventory", 15, 15, 15, 15, 100);
+        recipeList = new Recipe[]{recipe1, recipe2, recipe3};
+        customList = new Recipe[]{recipe4, recipe5, recipe6};
     }
 
 
@@ -245,7 +241,7 @@ public class CoffeeMakerTest {
     public void testMakeCoffee() {
         when(mockCoffeeMaker.getRecipes()).thenReturn(recipeList);
         assertEquals(25, mockCoffeeMaker.makeCoffee(0, 75));
-        verify(recipeBook, times(4)).getRecipes();
+        verify(stubRecipeBook, times(4)).getRecipes();
     }
 
     /**
@@ -694,7 +690,7 @@ public class CoffeeMakerTest {
     public void testNoNegativeMoney() {
         when(mockCoffeeMaker.getRecipes()).thenReturn(customList);
         assertEquals(-100, mockCoffeeMaker.makeCoffee(1, -100));
-        verify(recipeBook, times(2)).getRecipes();
+        verify(stubRecipeBook, times(2)).getRecipes();
     }
 
     /**
@@ -706,10 +702,10 @@ public class CoffeeMakerTest {
      */
     @Test
     public void testNoRecipeInBook() {
-        Recipe[] emptyList = {null, null, null, null};
+        Recipe[] emptyList = {null, null, null};
         when(mockCoffeeMaker.getRecipes()).thenReturn(emptyList);
         assertEquals(100, coffeeMaker.makeCoffee(1, 100));
-        verify(recipeBook).getRecipes();
+        verify(stubRecipeBook).getRecipes();
     }
 
     /**
@@ -723,9 +719,9 @@ public class CoffeeMakerTest {
     public void testEmptyInventory() throws RecipeException {
         when(mockCoffeeMaker.getRecipes()).thenReturn(customList);
         assertEquals(0, mockCoffeeMaker.makeCoffee(3, 100));
-        verify(recipeBook, times(4)).getRecipes();
+        verify(stubRecipeBook, times(4)).getRecipes();
         assertEquals(100, mockCoffeeMaker.makeCoffee(1, 100));
-        verify(recipeBook, times(7)).getRecipes();
+        verify(stubRecipeBook, times(7)).getRecipes();
     }
 
     /**
@@ -739,7 +735,7 @@ public class CoffeeMakerTest {
     public void testNotEnoughInventory() {
         when(mockCoffeeMaker.getRecipes()).thenReturn(customList);
         assertEquals(100, mockCoffeeMaker.makeCoffee(1, 100));
-        verify(recipeBook, times(3)).getRecipes();
+        verify(stubRecipeBook, times(3)).getRecipes();
     }
 
 
@@ -754,6 +750,6 @@ public class CoffeeMakerTest {
     public void testNotEnoughMoney() {
         when(mockCoffeeMaker.getRecipes()).thenReturn(recipeList);
         assertEquals(2, mockCoffeeMaker.makeCoffee(0, 2));
-        verify(recipeBook, times(2)).getRecipes();
+        verify(stubRecipeBook, times(2)).getRecipes();
     }
 }
