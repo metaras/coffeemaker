@@ -15,7 +15,7 @@ if(JavaVersion.current() != JavaVersion.VERSION_1_8)
     throw new GradleException("This project requires Java 8, but it's running on "+JavaVersion.current())
 
 sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8 
+targetCompatibility = JavaVersion.VERSION_1_8
 
 ext {
     jacocoVersion = '0.8.7'
@@ -33,6 +33,16 @@ repositories {
      testLogging.showStandardStreams = true
  }
 
+dependencies {
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:3.+"
+
+    // Use Cucumber
+    testImplementation 'io.cucumber:cucumber-java:6.11.0'
+    testImplementation 'io.cucumber:cucumber-junit:6.11.0'
+}
+
 jacoco {
     toolVersion = jacocoVersion
 }
@@ -45,11 +55,19 @@ jacocoTestReport {
     }
 }
 
-dependencies {
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:3.+"
-	// Deprecated.  Use testImplementation.
-//    testCompile 'junit:junit:4.12'
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
 }
 
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'edu.ncsu.csc326.coffeemaker', 'src/test/resources']
+        }
+    }
+}
