@@ -7,7 +7,7 @@ Feature: Using the coffee maker
 
   Scenario: Purchase beverage
     When purchase 100 for the beverage from recipe in the recipe book
-    Then get the beverage withe out return
+    Then get the beverage with out return
 
   Scenario: Purchase beverage with change
     When purchase 70 for the beverage from the recipe in the recipe book
@@ -18,22 +18,7 @@ Feature: Using the coffee maker
     When purchase 100 the beverage from recipe in the recipe book
     Then cannot purchase the beverage with return 100
 
-  Scenario: purchase the beverage with not enough money
-    When purchase 150 for the beverage from recipe in the recipe book
-    Then cannot purchase the beverage
-
-  Scenario: purchase the beverage sugar is not enough
-    When sugar in the inventory is 0
-    Then cannot purchase the beverage
-
-  Scenario: purchase the beverage milk is not enough
-    When milk in the inventory is 0
-    Then cannot purchase the beverage
-
-  Scenario: purchase the beverage coffee is not enough
-    When coffee in the inventory is 0
-    Then cannot purchase the beverage
-
-  Scenario: purchase the beverage chocolate is not enough
-    When chocolate in the inventory is 0
+  Scenario: purchase the beverage when ingredients is not enough
+    Given the empty inventory
+    When purchase beverage
     Then cannot purchase the beverage
